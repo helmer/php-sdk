@@ -796,7 +796,7 @@ abstract class BaseFacebook
 
     // decode the data
     $sig = self::base64UrlDecode($encoded_sig);
-    $data = json_decode(self::base64UrlDecode($payload), true);
+    $data = json_decode(preg_replace('/"user_id":(\d+)/', '"user_id":"$1"', self::base64UrlDecode($payload)), true);
 
     if (strtoupper($data['algorithm']) !== 'HMAC-SHA256') {
       self::errorLog('Unknown algorithm. Expected HMAC-SHA256');
